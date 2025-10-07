@@ -1,7 +1,14 @@
 'use client';
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useMemo } from 'react';
 import { Product } from '@/lib/api';
+
+export interface LocalOrder {
+  id: string;
+  date: string;
+  items: CartItem[];
+  total: number;
+}
 
 interface CartItem extends Product {
   quantity: number;
@@ -10,9 +17,21 @@ interface CartItem extends Product {
 interface CartContextType {
   cartItems: CartItem[];
   addToCart: (product: Product) => void;
+  clearCart: () => void; // NOUVEAU
+  checkout: () => void; // NOUVEAU
+  cartTotal: number; // NOUVEAU
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
+
+const saveLocalOrders = (orders: LocalOrder[]) => {
+  localStorage.setItem('local_orders', JSON.stringify(orders));
+};
+const getLocalOrders = (): LocalOrder[] => {
+  const data = localStorage.getItem('local_orders');
+  return data ? JSON.parse(data) : [];
+};
+
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -30,7 +49,34 @@ export function CartProvider({ children }: { children: ReactNode }) {
     alert(`"${product.title}" a été ajouté au panier !`);
   };
 
-  const value = { cartItems, addToCart };
+  const clearCart = () => { // NOUVEAU
+    setCartItems([]);
+  };
+
+  const checkout = () => { // NOUVEAU
+    if (cartItems.length === 0) {
+      alert("Votre panier est vide !");
+      return;
+    }
+    const newOrder: LocalOrder = {
+      id: new Date().getTime().toString(), // ID unique basé sur le temps
+      date: new Date().toISOString(),
+      items: cartItems,
+      total: cartTotal,
+    };
+    const existingOrders = getLocalOrders();
+    saveLocalOrders([...existingOrders, newOrder]);
+    alert("Commande validée !");
+    clearCart();
+  };
+
+  // NOUVEAU : On calcule le total du panier
+  const cartTotal = useMemo(() => {
+    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  }, [cartItems]);
+
+
+  const value = { cartItems, addToCart, clearCart, checkout, cartTotal };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
