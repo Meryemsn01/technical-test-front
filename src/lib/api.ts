@@ -36,11 +36,17 @@ export interface Cart {
   totalQuantity: number;
 }
 
+export interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
 
 export type ProductsResponse = { products: Product[]; total: number; skip: number; limit: number };
 export type CartsResponse = { carts: Cart[]; total: number; skip: number; limit: number };
-export type UsersResponse = { users: any[]; total: number; skip: number; limit: number };
-
+export type UsersResponse = { users: User[]; total: number; skip: number; limit: number };
 
 export async function fetchProducts(page: number = 1): Promise<ProductsResponse> {
   const limit = 12;
@@ -88,7 +94,10 @@ export async function fetchCarts(page: number = 1): Promise<CartsResponse> {
   return response.json();
 }
 
-/** TODO: implémentez fetchUsers(limit, skip) */
-export async function fetchUsers(limit = 10, skip = 0): Promise<UsersResponse> {
-  throw new Error("TODO: fetchUsers non implémenté");
+export async function fetchUsers(): Promise<UsersResponse> {
+  const response = await fetch(`${BASE}/users?limit=0`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch users");
+  }
+  return response.json();
 }
