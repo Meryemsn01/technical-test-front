@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchProducts, Product } from '@/lib/api'; 
 
@@ -18,11 +19,27 @@ function ProductCard({ product }: { product: Product }) {
 }
 
 export default function Products() {
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['products'],
-    queryFn: () => fetchProducts(1),
+  const [page, setPage] = useState(1);
+   const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['products', page],
+    queryFn: () => fetchProducts(page),
+    placeholderData: (previousData) => previousData,
   });
 
+  const totalPages = data ? Math.ceil(data.total / 12) : 0;
+
+  if (isLoading) {
+    return <div className="card text-center">Chargement des produits...</div>;
+  }
+
+  if (isError) {
+    return (
+      <div className="card text-red-500 p-4 border border-red-500 rounded-lg">
+        Erreur: {error.message}
+      </div>
+    );
+  }
+  
   return (
     <div className="card">
       <h2 className="text-xl font-semibold mb-3">Produits</h2>
@@ -33,15 +50,6 @@ export default function Products() {
         </select>
       </div>
       
-      
-      {isLoading && <div className="skeleton h-24 w-full mb-3" />}
-      
-      {isError && (
-        <div className="text-red-500 p-4 border border-red-500 rounded-lg">
-          Erreur: {error.message}
-        </div>
-      )}
-
       {data && (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {data.products.map((product) => (
@@ -50,10 +58,24 @@ export default function Products() {
         </div>
       )}
 
-      <div className="flex items-center gap-2 mt-4">
-        <button className="btn">Préc.</button>
-        <div className="text-sm">Page X / Y</div>
-        <button className="btn">Suiv.</button>
+      <div className="flex items-center justify-center gap-4 mt-8">
+        <button 
+          className="btn" 
+          onClick={() => setPage(prev => Math.max(prev - 1, 1))} 
+          disabled={page === 1} 
+        >
+          Préc.
+        </button>
+        <div className="text-sm font-medium">
+          Page {page} / {totalPages}
+        </div>
+        <button 
+          className="btn"
+          onClick={() => setPage(prev => prev + 1)}
+          disabled={!data || page === totalPages} 
+        >
+          Suiv.
+        </button>
       </div>
     </div>
   );
