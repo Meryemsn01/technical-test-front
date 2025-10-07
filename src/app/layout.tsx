@@ -3,12 +3,14 @@ import "./globals.css";
 import Link from "next/link";
 import QueryProvider from "@/components/QueryProvider";
 import Guard from "@/components/Guard";
+import { CartProvider } from "@/context/CartContext";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="fr">
       <body>
         <QueryProvider>
+          <CartProvider>
           <header className="border-b border-gray-200 dark:border-gray-800">
             <div className="container py-4 flex items-center gap-6">
               <Link href="/" className="font-semibold text-lg">
@@ -25,6 +27,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <main className="container py-6">
             <Guard>{children}</Guard>
           </main>
+          </CartProvider>
         </QueryProvider>
       </body>
     </html>

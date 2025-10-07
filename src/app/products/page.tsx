@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'; 
 import { useQuery } from '@tanstack/react-query';
+import { useCart } from '@/context/CartContext';
 
 import { 
   fetchProducts, 
@@ -25,6 +26,8 @@ function useDebounce<T>(value: T, delay: number): T {
 }
 
 function ProductCard({ product }: { product: Product }) {
+  const { addToCart } = useCart();
+
   return (
     <div className="border rounded-lg p-3 flex flex-col text-center shadow-sm bg-white dark:bg-gray-800 dark:border-gray-700">
       <img 
@@ -34,6 +37,12 @@ function ProductCard({ product }: { product: Product }) {
       />
       <h3 className="font-semibold flex-grow">{product.title}</h3>
       <p className="text-lg font-bold mt-2">{product.price} €</p>
+      <button 
+        className="btn mt-3 text-sm"
+        onClick={() => addToCart(product)}
+      >
+        Ajouter au panier
+      </button>
     </div>
   );
 }
