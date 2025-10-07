@@ -9,6 +9,12 @@ export interface Product {
   description: string;
 }
 
+export interface Category {
+  slug: string;
+  name: string;
+  url: string;
+}
+
 export type ProductsResponse = { products: Product[]; total: number; skip: number; limit: number };
 export type CartsResponse = { carts: any[]; total: number; skip: number; limit: number };
 export type UsersResponse = { users: any[]; total: number; skip: number; limit: number };
@@ -32,7 +38,7 @@ export async function searchProducts(query: string): Promise<ProductsResponse> {
   return response.json();
 }
 
-export async function fetchCategories(): Promise<string[]> {
+export async function fetchCategories(): Promise<Category[]> {
   const response = await fetch(`${BASE}/products/categories`);
   if (!response.ok) {
     throw new Error("Failed to fetch categories");
