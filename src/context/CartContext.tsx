@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, ReactNode, useMemo } from 'react';
+import { getLocalOrders, saveLocalOrders } from '@/lib/localOrders'; 
 import { Product } from '@/lib/api';
 
 export interface LocalOrder {
@@ -17,20 +18,13 @@ interface CartItem extends Product {
 interface CartContextType {
   cartItems: CartItem[];
   addToCart: (product: Product) => void;
-  clearCart: () => void; // NOUVEAU
-  checkout: () => void; // NOUVEAU
-  cartTotal: number; // NOUVEAU
+  clearCart: () => void; 
+  checkout: () => void; 
+  cartTotal: number; 
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-const saveLocalOrders = (orders: LocalOrder[]) => {
-  localStorage.setItem('local_orders', JSON.stringify(orders));
-};
-const getLocalOrders = (): LocalOrder[] => {
-  const data = localStorage.getItem('local_orders');
-  return data ? JSON.parse(data) : [];
-};
 
 
 export function CartProvider({ children }: { children: ReactNode }) {
@@ -49,17 +43,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
     alert(`"${product.title}" a été ajouté au panier !`);
   };
 
-  const clearCart = () => { // NOUVEAU
+  const clearCart = () => {
     setCartItems([]);
   };
 
-  const checkout = () => { // NOUVEAU
+  const checkout = () => {
     if (cartItems.length === 0) {
       alert("Votre panier est vide !");
       return;
     }
     const newOrder: LocalOrder = {
-      id: new Date().getTime().toString(), // ID unique basé sur le temps
+      id: new Date().getTime().toString(),
       date: new Date().toISOString(),
       items: cartItems,
       total: cartTotal,
@@ -70,7 +64,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
     clearCart();
   };
 
-  // NOUVEAU : On calcule le total du panier
   const cartTotal = useMemo(() => {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   }, [cartItems]);
