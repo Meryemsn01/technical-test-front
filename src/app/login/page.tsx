@@ -1,24 +1,23 @@
 'use client';
-/**
- * TODO:
- * - Valider email/password (Zod)
- * - Créer un token façade, le stocker (sessionStorage)
- * - Rediriger vers /products
- */
+
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-// import { setToken } from '@/lib/auth';
+import { setToken } from '@/lib/auth';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState<string|undefined>(undefined);
+  const [error, setError] = useState<string | undefined>(undefined);
   const router = useRouter();
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    // TODO: valider + setToken(email) + router.push('/products')
-    setError('TODO: implémenter la connexion façade');
+    if (!email || !password) {
+      setError('Veuillez remplir tous les champs.');
+      return;
+    }
+    setToken(email);
+    router.push('/products');
   }
 
   return (

@@ -1,10 +1,16 @@
-/** Auth façade — TODO: implémentez une vraie logique côté front (sessionStorage, etc.) */
+const TOKEN_KEY = 'visionyze_auth_token';
+
 export function isAuthed(): boolean {
-  return false; // TODO
+  if (typeof window === 'undefined') {
+    return false;
+  }
+  return sessionStorage.getItem(TOKEN_KEY) !== null;
 }
-export function setToken(_email: string) {
-  // TODO
+
+export function setToken(email: string) {
+  sessionStorage.setItem(TOKEN_KEY, email);
 }
+
 export function clearToken() {
-  // TODO
+  sessionStorage.removeItem(TOKEN_KEY);
 }
