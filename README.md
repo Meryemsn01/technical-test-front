@@ -8,7 +8,7 @@ Le code source final est disponible sur [GitHub](https://github.com/Meryemsn01/t
 
 ## 🚀 Démarrage
 
-Pour exécuter ce projet en local, une configuration simple est requise.
+Pour exécuter ce projet en local, suivez ces étapes :
 
 1.  **Clonage du Repository**
     ```bash
@@ -18,8 +18,7 @@ Pour exécuter ce projet en local, une configuration simple est requise.
 
 2.  **Installation des Dépendances**
     ```bash
-    # Il est recommandé d'utiliser cette option pour résoudre un conflit de peer dependency
-    npm install --legacy-peer-deps
+    npm install
     ```
 
 3.  **Configuration de l'Environnement**
@@ -31,7 +30,7 @@ Pour exécuter ce projet en local, une configuration simple est requise.
     ```bash
     npm run dev
     ```
-    L'application est maintenant accessible sur `http://localhost:3000`.
+    L'application sera accessible sur `http://localhost:3000`.
 
 ---
 
