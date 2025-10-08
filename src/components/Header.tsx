@@ -1,4 +1,3 @@
-// src/components/Header.tsx
 'use client';
 
 import Link from 'next/link';
@@ -31,8 +30,7 @@ export default function Header() {
           <div className="text-xs opacity-70">DummyJSON</div>
         </div>
       </div>
-
-      {/* Le résumé du panier qui s'affiche au clic */}
+      
       {isCartVisible && (
         <div className="absolute top-full right-0 container">
           <div className="card mt-2 float-right w-full max-w-sm">

@@ -6,6 +6,7 @@
       "dom.iterable",
       "esnext"
     ],
+    "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
@@ -16,24 +17,28 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "baseUrl": ".",
     "paths": {
       "@/*": [
         "src/*"
       ]
     },
-    "allowJs": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
+    "types": ["vitest/globals", "@testing-library/jest-dom"]
   },
   "include": [
     "next-env.d.ts",
-    "src/**/*",
+    "src/**/*.ts",
     "src/**/*.tsx",
-    ".next/types/**/*.ts"
+    "__tests__/**/*.ts",
+    "__tests__/**/*.tsx",
+    ".next/types/**/*.ts",
+    "vitest.config.mts",
+    "vitest.setup.ts"
   ],
   "exclude": [
     "node_modules"

@@ -26,12 +26,23 @@ export default function Login() {
         <h2 className="text-xl font-semibold mb-3">Connexion</h2>
         <form onSubmit={onSubmit} className="space-y-3">
           <div>
-            <label className="label">Email</label>
-            <input className="input" value={email} onChange={e=>setEmail(e.target.value)} />
+            <label htmlFor="email" className="label">Email</label>
+            <input 
+              id="email" 
+              className="input" 
+              value={email} 
+              onChange={e => setEmail(e.target.value)} 
+            />
           </div>
           <div>
-            <label className="label">Mot de passe</label>
-            <input className="input" type="password" value={password} onChange={e=>setPassword(e.target.value)} />
+            <label htmlFor="password" className="label">Mot de passe</label>
+            <input 
+              id="password" 
+              className="input" 
+              type="password" 
+              value={password} 
+              onChange={e => setPassword(e.target.value)} 
+            />
           </div>
           {error && <p className="text-red-600 text-sm">{error}</p>}
           <button className="btn btn-primary" type="submit">Se connecter</button>

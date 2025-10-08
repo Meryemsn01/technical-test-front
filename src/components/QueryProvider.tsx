@@ -8,7 +8,6 @@ export default function QueryProvider({
 }: {
   children: React.ReactNode;
 }) {
-  // Créer le QueryClient uniquement côté client
   const [queryClient] = useState(
     () =>
       new QueryClient({

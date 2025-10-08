@@ -6,19 +6,8 @@ import { getLocalOrders } from '@/lib/localOrders';
 import { LocalOrder } from '@/context/CartContext';
 import { useState, useEffect, useMemo } from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
+import KpiCard from '@/components/KpiCard';
 
-function KpiCard({ title, value, isLoading }: { title: string; value: string | number; isLoading?: boolean }) {
-  return (
-    <div className="card">
-      <div className="text-sm text-gray-600 dark:text-gray-300">{title}</div>
-      {isLoading ? (
-        <div className="skeleton h-8 w-1/2 mt-1" />
-      ) : (
-        <div className="text-2xl font-semibold">{value}</div>
-      )}
-    </div>
-  );
-}
 
 export default function Metrics() {
   const { data: usersData, isLoading: isLoadingUsers } = useQuery({
